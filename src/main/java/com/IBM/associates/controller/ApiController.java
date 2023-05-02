@@ -3,6 +3,7 @@ package com.IBM.associates.controller;
 import com.IBM.associates.entidades.Estagiario;
 import com.IBM.associates.repository.AssociatesRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,11 @@ public class ApiController {
     AssociatesRepository associatesRepository;
 
     @PostMapping("/associates/v1")
-    public ResponseEntity<Estagiario> cadastrarEstagiario(@RequestBody Estagiario estagiarios){
+    public ResponseEntity<Estagiario> cadastrarEstagiario(@Valid @RequestBody Estagiario estagiarios){
+
+        if (estagiarios.getCnum() == null || estagiarios.getName() == null || estagiarios.getContract_date() == null){
+            return ResponseEntity.badRequest().build();
+        }
         associatesRepository.save(estagiarios);
         return new ResponseEntity<Estagiario>(HttpStatus.CREATED);
     }

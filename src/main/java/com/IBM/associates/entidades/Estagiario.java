@@ -5,6 +5,8 @@ import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
@@ -12,14 +14,16 @@ import java.time.LocalDate;
 public class Estagiario {
 
 
-
     @Id
+    @Column(nullable = false)
     private Long cnum;
 
 
+    @NotEmpty(message = "Nome não pode ser vazio.")
+    @Column(nullable = false)
     private String name;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate contract_date;
 
     public Long getCnum() {
